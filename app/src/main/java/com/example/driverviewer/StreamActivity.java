@@ -5,9 +5,8 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Size;
-import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,11 +40,16 @@ public class StreamActivity extends AppCompatActivity {
     private Bitmap bitmap = null;
     private RequestQueue queue = null;
     private String URL = "http://192.168.1.52:5000/authenticate/";
+    private TextView URL_textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stream);
+
+        URL_textView = findViewById(R.id.textview_url);
+        URL = getIntent().getStringExtra("URL");
+        URL_textView.setText(URL);
 
         streamPreviewView = findViewById(R.id.preview_view_stream);
         streamPreviewView.setScaleType(PreviewView.ScaleType.FILL_CENTER);

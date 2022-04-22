@@ -3,4 +3,7 @@
     <string name="stream">Stream</string>
     <string name="start_stream">Start Stream</string>
     <string name="stop_stream">Stop Stream</string>
+    <string name="google_map_descriptor">Map Descriptor</string>
+    <string name="map">MAP</string>
+    <string name="server_url">SERVER URL</string>
 </resources>

@@ -9,29 +9,70 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final int MULTIPLE_PERMISSIONS = 958;
+    private String URL = "http://192.168.1.52:5000/authenticate/";
+
     private final String[] permissions = new String[]{
             Manifest.permission.CAMERA,
             Manifest.permission.INTERNET,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE};
 
+    protected TextInputEditText textInputEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         checkPermissions();
+
+        //URL SETTING <
+        textInputEditText = findViewById(R.id.textinputedittext_url);
+        textInputEditText.setText(URL);
+        textInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                URL = charSequence.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        //URL SETTING >
+
+        //BUTTONS AND THEIR ASSIGNMENTS STARTS
         Button streamButton = findViewById(R.id.button_stream);
         streamButton.setOnClickListener(view -> {
             Intent changeActivityIntent = new Intent(MainActivity.this, StreamActivity.class);
+            changeActivityIntent.putExtra("URL", URL);
             MainActivity.this.startActivity(changeActivityIntent);
         });
+
+        Button mapButton = findViewById(R.id.button_map);
+        mapButton.setOnClickListener(view -> {
+            Intent changeActivityIntent = new Intent(MainActivity.this, MapActivity.class);
+            MainActivity.this.startActivity(changeActivityIntent);
+        });
+        //BUTTON ASSIGNMENTS ENDS
     }
 
     @Override
@@ -52,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 */
+    }
+
+    public String getURL() {
+        return URL;
     }
 
     private boolean checkPermissions() {
