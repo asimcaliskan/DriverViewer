@@ -6,4 +6,5 @@
     <string name="google_map_descriptor">Map Descriptor</string>
     <string name="map">MAP</string>
     <string name="server_url">SERVER URL</string>
+    <string name="driver_safety_application">Driver Safety Application</string>
 </resources>
