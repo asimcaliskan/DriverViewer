@@ -20,7 +20,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final int MULTIPLE_PERMISSIONS = 958;
-    private String URL = "http://192.168.1.52:5000/authenticate/";
+    private String URL = "http://{ip}:{port}";
 
     private final String[] permissions = new String[]{
             Manifest.permission.CAMERA,
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         Button mapButton = findViewById(R.id.button_map);
         mapButton.setOnClickListener(view -> {
             Intent changeActivityIntent = new Intent(MainActivity.this, MapActivity.class);
+            changeActivityIntent.putExtra("URL", URL);
             MainActivity.this.startActivity(changeActivityIntent);
         });
         //BUTTON ASSIGNMENTS ENDS

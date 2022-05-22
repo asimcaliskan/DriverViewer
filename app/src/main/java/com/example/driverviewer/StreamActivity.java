@@ -7,6 +7,7 @@ import android.graphics.PixelFormat;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.util.Size;
 import android.widget.Button;
 import android.widget.TextView;
@@ -49,7 +50,7 @@ public class StreamActivity extends AppCompatActivity {
     private Boolean sendJSON = true;
     private Bitmap bitmap = null;
     private RequestQueue queue = null;
-    private String URL = "http://192.168.1.52:5000/authenticate/";
+    private String URL = "http://{ip}:{port}";
     private TextView URL_textView;
     private TextView locationTextView;
     private double latitude;
@@ -66,7 +67,10 @@ public class StreamActivity extends AppCompatActivity {
         locationTextView.setText("LOCATION DATA");
 
         URL_textView = findViewById(R.id.textview_url);
-        URL = getIntent().getStringExtra("URL");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getIntent().getStringExtra("URL"));
+        stringBuilder.append("/post");
+        URL = stringBuilder.toString();
         URL_textView.setText(URL);
 
         streamPreviewView = findViewById(R.id.preview_view_stream);
@@ -109,9 +113,10 @@ public class StreamActivity extends AppCompatActivity {
 
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview);
 
+
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                 .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
-                .setTargetResolution(new Size(640, 480))
+                .setTargetResolution(new Size(480, 640  ))
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build();
 
@@ -161,7 +166,7 @@ public class StreamActivity extends AppCompatActivity {
         //GET LOCATION >
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
         byte[] byteArray = stream.toByteArray();
         String imageString = Base64.encodeToString(byteArray, Base64.DEFAULT);
         JSONObject jsonObject = new JSONObject();
